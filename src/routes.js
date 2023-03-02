@@ -24,8 +24,8 @@ const Router = () => {
         <MainLayout />
         <Container>
           <Routes>
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/dashboard" element={<Dashboard />} />
 
             {/* APPROVEDs */}
             <Route path="approved">

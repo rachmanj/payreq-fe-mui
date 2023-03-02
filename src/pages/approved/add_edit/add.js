@@ -93,7 +93,7 @@ const AddPayreqForm = () => {
           flexGrow: 1,
         }}
       >
-        <Typography variant="h5">Add New Payreq</Typography>
+        <Typography variant="h5">New Payment Request</Typography>
 
         <Card>
           <CardContent>

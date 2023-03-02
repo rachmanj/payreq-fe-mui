@@ -1,3 +1,11 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+import { loginUser } from "../../store/actions/authAction";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -21,7 +29,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="http://arka.co.id">
         www.arka.co.id
       </Link>{" "}
       {new Date().getFullYear()}
@@ -33,14 +41,30 @@ function Copyright(props) {
 const theme = createTheme();
 
 const SignIn = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const notifications = useSelector((state) => state.notifications);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email("Invalid email address").required("Required"),
+      password: Yup.string().required("Required"),
+    }),
+    onSubmit: (values) => {
+      dispatch(loginUser(values));
+      // console.log(values);
+    },
+  });
+
+  useEffect(() => {
+    if (notifications && notifications.global.success) {
+      navigate("/dashboard");
+    }
+  }, [notifications]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,7 +86,7 @@ const SignIn = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -74,6 +98,8 @@ const SignIn = () => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
               autoFocus
             />
             <TextField
@@ -84,6 +110,8 @@ const SignIn = () => {
               label="Password"
               type="password"
               id="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
               autoComplete="current-password"
             />
             <FormControlLabel

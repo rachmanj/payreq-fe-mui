@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import usersReducer from "./reducers/usersReducer";
+import authReducer from "./reducers/authReducer";
 import approvedReducer from "./reducers/approvedReducer";
 import outgoingReducer from "./reducers/outgoingReducer";
 import employeeReducer from "./reducers/employeeReducer";
@@ -7,10 +7,11 @@ import payreqReducer from "./reducers/payreqReducer";
 import advanceCategoryReducer from "./reducers/advanceCategoryReducer";
 import rabReducers from "./reducers/rabReducers";
 import accountReducer from "./reducers/accountReducer";
+import notificationReducer from "./reducers/notificationReducer";
 
 export const store = configureStore({
   reducer: {
-    users: usersReducer,
+    loggedUser: authReducer,
     approveds: approvedReducer,
     outgoings: outgoingReducer,
     employees: employeeReducer,
@@ -18,5 +19,6 @@ export const store = configureStore({
     advanceCategories: advanceCategoryReducer,
     rabs: rabReducers,
     accounts: accountReducer,
+    notifications: notificationReducer,
   },
 });
