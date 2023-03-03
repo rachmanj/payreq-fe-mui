@@ -11,7 +11,7 @@ import notificationReducer from "./reducers/notificationReducer";
 
 export const store = configureStore({
   reducer: {
-    loggedUser: authReducer,
+    auth: authReducer,
     approveds: approvedReducer,
     outgoings: outgoingReducer,
     employees: employeeReducer,

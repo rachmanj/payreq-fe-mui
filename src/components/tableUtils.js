@@ -26,7 +26,7 @@ export const PagesInfo = (props) => {
   );
 };
 
-// SIMPLE TABLE PAGINATION use for local records
+// SIMPLE TABLE PAGINATION use for local records // use with redux
 export const SimpleTablePagination = (props) => {
   const { currentPage, setCurrentPage, approveds, recordsPerPage } = props;
 

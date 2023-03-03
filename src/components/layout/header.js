@@ -9,7 +9,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 
-import { showToast } from "../../utils/tools";
 import { logoutUser } from "../../store/actions/authAction";
 import { clearNotification } from "../../store/reducers/notificationReducer";
 
@@ -22,7 +21,7 @@ const menuPayreqs = [
 ];
 
 const menuAccountings = [
-  { label: "Dashboard", to: "/dashboard" },
+  { label: "Dashboard", to: "/accounting/dashboard" },
   { label: "Transactions", to: "/transaction" },
   { label: "Reports", to: "/reports" },
 ];
@@ -33,7 +32,7 @@ const MenuAppBar = () => {
   const [anchorPayreq, setAnchorPayreq] = useState(null);
   const [anchorProfile, setAnchorProfile] = useState(null);
 
-  const user = useSelector((state) => state.loggedUser);
+  const user = useSelector((state) => state.auth);
   const notifications = useSelector((state) => state.notifications);
 
   const navigate = useNavigate();
@@ -57,24 +56,10 @@ const MenuAppBar = () => {
     setAnchorProfile(null);
   };
 
-  useEffect(() => {
-    let { global } = notifications;
-    if (notifications && global.error) {
-      const message = global.message ? global.message : "Error";
-      showToast("ERROR", message);
-      dispatch(clearNotification());
-    }
-    if (notifications && global.success) {
-      const message = global.message ? global.message : "Mantap!!";
-      showToast("SUCCESS", message);
-      dispatch(clearNotification());
-    }
-  }, [notifications]);
-
   const handleLogoutClicked = () => {
-    dispatch(logoutUser());
     navigate("/login");
     handleClose();
+    dispatch(logoutUser());
   };
 
   return (

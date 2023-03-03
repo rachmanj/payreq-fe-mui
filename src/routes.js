@@ -1,11 +1,14 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Container } from "@mui/material";
 
-import SignIn from "./pages/auth/SignIn";
+import Login from "./pages/auth/login";
 import Dashboard from "./pages/dashboard";
 import MainLayout from "./components/layout/mainLayout";
 import Accounting from "./pages/accounting";
 import Admin from "./pages/admin";
+
+//HOC
+import AuthGuard from "./hoc/authGuard";
 
 // APPROVEDS
 import Approved from "./pages/approved";
@@ -20,11 +23,13 @@ import AllPayreqs from "./pages/allPayreqs";
 const Router = () => {
   return (
     <BrowserRouter>
-      <>
-        <MainLayout />
-        <Container>
-          <Routes>
-            <Route path="/login" element={<SignIn />} />
+      <MainLayout />
+      <Container>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+
+          <Route element={<AuthGuard />}>
+            {/* DASHBOARD */}
             <Route path="/dashboard" element={<Dashboard />} />
 
             {/* APPROVEDs */}
@@ -39,9 +44,9 @@ const Router = () => {
             <Route path="/all-payreqs" element={<AllPayreqs />} />
             <Route path="/accounting" element={<Accounting />} />
             <Route path="/admin" element={<Admin />} />
-          </Routes>
-        </Container>
-      </>
+          </Route>
+        </Routes>
+      </Container>
     </BrowserRouter>
   );
 };
