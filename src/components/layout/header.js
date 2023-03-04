@@ -92,7 +92,7 @@ const MenuAppBar = () => {
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={snackbarSuccessOpen}
-        key="SlideTransition"
+        key="success"
         TransitionComponent={TransitionLeft}
       >
         <Alert severity="success">{notifications.global.message}</Alert>
@@ -100,7 +100,7 @@ const MenuAppBar = () => {
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={snackbarErrorOpen}
-        key="SlideTransition"
+        key="error"
         TransitionComponent={TransitionLeft}
       >
         <Alert severity="error">{notifications.global.message}</Alert>

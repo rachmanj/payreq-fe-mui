@@ -18,6 +18,7 @@ export const setTokenCookie = (token) => {
 export const getTokenCookie = () => cookie.load("payreq-token");
 export const removeTokenCookie = () =>
   cookie.remove("payreq-token", { path: "/" });
+
 export const getAuthHeader = () => {
   return {
     headers: {
