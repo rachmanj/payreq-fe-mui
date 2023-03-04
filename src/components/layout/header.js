@@ -8,6 +8,9 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+import Alert from "@mui/material/Alert";
 
 import { logoutUser } from "../../store/actions/authAction";
 import { clearNotification } from "../../store/reducers/notificationReducer";
@@ -31,6 +34,8 @@ const menuAdmins = [{ label: "Admin", to: "/admin" }];
 const MenuAppBar = () => {
   const [anchorPayreq, setAnchorPayreq] = useState(null);
   const [anchorProfile, setAnchorProfile] = useState(null);
+  const [snackbarSuccessOpen, setSnackbarSuccessOpen] = useState(false);
+  const [snackbarErrorOpen, setSnackbarErrorOpen] = useState(false);
 
   const user = useSelector((state) => state.auth);
   const notifications = useSelector((state) => state.notifications);
@@ -46,24 +51,60 @@ const MenuAppBar = () => {
     setAnchorProfile(true);
   };
 
-  const handleSubmenuClicked = (to) => {
-    navigate(to);
-    handleClose();
-  };
-
-  const handleClose = () => {
+  const handleAnchorClose = () => {
     setAnchorPayreq(null);
     setAnchorProfile(null);
   };
 
-  const handleLogoutClicked = () => {
-    navigate("/login");
-    handleClose();
-    dispatch(logoutUser());
+  const handleSubmenuClicked = (to) => {
+    navigate(to);
+    handleAnchorClose();
   };
+
+  const handleLogoutClicked = () => {
+    dispatch(logoutUser());
+    dispatch(clearNotification());
+    navigate("/login");
+    handleAnchorClose();
+  };
+
+  function TransitionLeft(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  useEffect(() => {
+    if (notifications && notifications.global.success) {
+      setSnackbarSuccessOpen(true);
+      setTimeout(() => {
+        setSnackbarSuccessOpen(false);
+      }, 3000);
+    }
+    if (notifications && notifications.global.error) {
+      setSnackbarErrorOpen(true);
+      setTimeout(() => {
+        setSnackbarErrorOpen(false);
+      }, 3000);
+    }
+  }, [notifications]);
 
   return (
     <>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={snackbarSuccessOpen}
+        key="SlideTransition"
+        TransitionComponent={TransitionLeft}
+      >
+        <Alert severity="success">{notifications.global.message}</Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={snackbarErrorOpen}
+        key="SlideTransition"
+        TransitionComponent={TransitionLeft}
+      >
+        <Alert severity="error">{notifications.global.message}</Alert>
+      </Snackbar>
       <Box sx={{ flexGrow: 0 }}>
         <AppBar position="fixed">
           <Toolbar variant="dense" sx={{ justifyContent: "space-between" }}>
@@ -92,7 +133,7 @@ const MenuAppBar = () => {
                       horizontal: "right",
                     }}
                     open={Boolean(anchorPayreq)}
-                    onClose={handleClose}
+                    onClose={handleAnchorClose}
                   >
                     {menuPayreqs.map((payreq) => (
                       <MenuItem
@@ -133,7 +174,7 @@ const MenuAppBar = () => {
                       horizontal: "right",
                     }}
                     open={Boolean(anchorProfile)}
-                    onClose={handleClose}
+                    onClose={handleAnchorClose}
                   >
                     <MenuItem onClick={handleLogoutClicked}>Logout</MenuItem>
                   </Menu>

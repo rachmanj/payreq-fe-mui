@@ -28,23 +28,23 @@ const Router = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
 
-          <Route element={<AuthGuard />}>
-            {/* DASHBOARD */}
-            <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route element={<AuthGuard />}> */}
+          {/* DASHBOARD */}
+          <Route path="/dashboard" element={<Dashboard />} />
 
-            {/* APPROVEDs */}
-            <Route path="approved">
-              <Route index element={<Approved />} />
-              <Route path="add" element={<AddApproved />} />
-            </Route>
-
-            {/* OUTGOINGS */}
-            <Route path="/outgoings" element={<Outgoings />} />
-
-            <Route path="/all-payreqs" element={<AllPayreqs />} />
-            <Route path="/accounting" element={<Accounting />} />
-            <Route path="/admin" element={<Admin />} />
+          {/* APPROVEDs */}
+          <Route path="approved">
+            <Route index element={<Approved />} />
+            <Route path="add" element={<AddApproved />} />
           </Route>
+
+          {/* OUTGOINGS */}
+          <Route path="/outgoings" element={<Outgoings />} />
+
+          <Route path="/all-payreqs" element={<AllPayreqs />} />
+          <Route path="/accounting" element={<Accounting />} />
+          <Route path="/admin" element={<Admin />} />
+          {/* </Route> */}
         </Routes>
       </Container>
     </BrowserRouter>

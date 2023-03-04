@@ -12,7 +12,8 @@ export const notificationsSlice = createSlice({
     },
     successGlobal: (state, action) => {
       state.global.success = true;
-      state.global.message = action.payload;
+      state.global.status = action.payload.status;
+      state.global.message = action.payload.message;
     },
     clearNotification: (state) => {
       state.global = {};

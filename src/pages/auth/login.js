@@ -1,10 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
-import { loginUser } from "../../store/actions/authAction";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -18,7 +16,13 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import { loginUser } from "../../store/actions/authAction";
+
+import { clearNotification } from "../../store/reducers/notificationReducer";
 
 function Copyright(props) {
   return (
@@ -41,6 +45,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 const SignIn = () => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const notifications = useSelector((state) => state.notifications);
@@ -56,12 +61,12 @@ const SignIn = () => {
     }),
     onSubmit: (values) => {
       dispatch(loginUser(values));
-      // console.log(values);
+      console.log(values);
     },
   });
 
   useEffect(() => {
-    if (notifications && notifications.global.success) {
+    if (notifications && notifications.global.status === "login") {
       navigate("/dashboard");
     }
   }, [notifications]);

@@ -8,6 +8,7 @@ export const getOutgoings = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get(`${PAYREQ_URL}/outgoings`);
+      console.log("response", response.data);
       return response.data;
     } catch (error) {
       throw error;
