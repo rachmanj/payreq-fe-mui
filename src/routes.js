@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { Container } from "@mui/material";
 
 import Login from "./pages/auth/login";
@@ -14,7 +14,7 @@ import { Loader } from "./utils/tools";
 import { isAuth } from "./store/actions/authAction";
 
 //HOC
-import AuthGuard from "./hoc/authGuard";
+import Protected from "./hoc/authGuard";
 
 // APPROVEDS
 import Approved from "./pages/approved";
@@ -55,23 +55,44 @@ const Router = () => {
             <Routes>
               <Route path="/login" element={<Login />} />
 
-              {/* <Route element={<AuthGuard />}> */}
-              {/* DASHBOARD */}
-              <Route path="/dashboard" element={<Dashboard />} />
-
+              <Route
+                path="/"
+                element={
+                  <Protected element={Dashboard} isLoggedIn={user.auth} />
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <Protected element={Dashboard} isLoggedIn={user.auth} />
+                }
+              />
               {/* APPROVEDs */}
-              <Route path="approved">
-                <Route index element={<Approved />} />
-                <Route path="add" element={<AddApproved />} />
-              </Route>
+              <Route
+                path="approved"
+                element={
+                  <Protected element={Approved} isLoggedIn={user.auth} />
+                }
+              ></Route>
+              <Route path="approved/add" element={<AddApproved />} />
 
               {/* OUTGOINGS */}
-              <Route path="/outgoings" element={<Outgoings />} />
+              <Route
+                path="outgoings"
+                element={
+                  <Protected element={Outgoings} isLoggedIn={user.auth} />
+                }
+              />
 
-              <Route path="/all-payreqs" element={<AllPayreqs />} />
+              <Route
+                path="all-payreqs"
+                element={
+                  <Protected element={AllPayreqs} isLoggedIn={user.auth} />
+                }
+              />
+
               <Route path="/accounting" element={<Accounting />} />
               <Route path="/admin" element={<Admin />} />
-              {/* </Route> */}
             </Routes>
           </Container>
         </>

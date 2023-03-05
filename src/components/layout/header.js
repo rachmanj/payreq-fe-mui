@@ -48,7 +48,7 @@ const MenuAppBar = () => {
   };
 
   const handleAnchorProfile = (e) => {
-    setAnchorProfile(true);
+    setAnchorProfile(e.currentTarget);
   };
 
   const handleAnchorClose = () => {
